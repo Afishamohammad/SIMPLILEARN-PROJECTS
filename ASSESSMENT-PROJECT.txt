@@ -1,0 +1,244 @@
+PROJECT:
+
+package main.project;
+
+import java.util.Scanner;
+import java.io.IOException;
+import java.util.Arrays;
+import java.io.File;
+
+public class MainProjectPhase1 {
+	static String MY_Dir;
+    File myFolder;
+
+    public  MainProjectPhase1() {
+    	MY_Dir = System.getProperty("user.dir");
+    	myFolder = new File("D:\\Java Files");
+        if (!myFolder.exists())
+        	myFolder.mkdirs();
+        System.out.println("MyFilePath : "+ myFolder.getAbsolutePath());
+    }
+    
+   private static final String WELCOME_TO_MY_COMPANY_PORTAL =
+		   
+   "\n Welcome to Phase_1 Main Project  " + "  " + "\n By My Company Pvt.Ltd " + " " + "\n The name is : Afisha Sulthana Mohammad";
+    
+   private static final String The_LOGIC_PART =
+            "\nMAIN MENU - Select any of the following operations: \n"+
+                    "1 - List the types of files in directory\n"+
+                    "2 - Perfotm functions like Add, Delete or Search\n"+
+                    "3 - Exit Program";
+
+    private static final String THE_FUNCTIONALITY_PART =
+            "   \nSelect any of the following  operations: \n"+
+                    "   1 - Add a file\n"+
+                    "   2 - Delete a file\n"+
+                    "   3 - Search a file\n"+
+                    "   4 - GoBack to Logic Part";
+
+    void firstView() {
+        System.out.println(The_LOGIC_PART);
+        try(Scanner sc = new Scanner(System.in)){
+            
+        	int option = sc.nextInt();
+            switch (option){
+                case 1 : {
+                	showListOfFiles();
+                    firstView();
+                }
+                case 2 : {
+                    secondView();
+                }
+                case 3 : {
+                    System.out.println("Thank You");
+                    System.exit(0);
+                }
+                default: firstView();
+            }
+        }
+        catch (Exception e){
+            System.out.println("Please enter 1, 2 or 3");
+            firstView();
+        }
+    }
+
+    void secondView() {
+        System.out.println(THE_FUNCTIONALITY_PART);
+        try(Scanner sc = new Scanner(System.in))
+        {
+            char[] input = sc.nextLine().toLowerCase().trim().toCharArray();
+            char logic = input[0];
+
+            switch (logic){
+                case '1' : {
+                    System.out.print("Please Enter a File Name you want to Add : ");
+                    String filename = sc.next().trim().toLowerCase();
+                    addFileMethod(filename);
+                    break;
+                }
+                case '2' : {
+                    System.out.print("Please Enter a File Name you want to Delete : ");
+                    String filename = sc.next().trim();
+                    deleteFileMethod(filename);
+                    break;
+                }
+                case '3' : {
+                    System.out.print("Please Enter a File Name you want to Search For : ");
+                    String filename = sc.next().trim();
+                    searchFileMethod(filename);
+                    break;
+                }
+                case '4' : {
+                    System.out.println("Going back to main logic part");
+                    firstView();
+                    break;
+                }
+                default : System.out.println("Please enter correct values to search the data in list");
+            }
+            secondView();
+        }
+        catch (Exception e){
+            System.out.println("Please enter correct values to search the data in list");
+            secondView();
+        }
+    }
+
+    void showListOfFiles() {
+        if (myFolder.list().length==0)
+            System.out.println("The folder is empty");
+        else {
+            String[] list = myFolder.list();
+            System.out.println("The files in "+ myFolder +" are :");
+            Arrays.sort(list);
+            for (String str:list) {
+                System.out.println(str);
+            }
+        }
+    }
+
+    void addFileMethod(String filename) throws IOException {
+        File filepath = new File(myFolder +"/"+filename);
+        String[] list = myFolder.list();
+        for (String file: list) {
+            if (filename.equalsIgnoreCase(file)) {
+                System.out.println("File " + filename + " already exists at " + myFolder);
+                return;
+            }
+        }
+        filepath.createNewFile();
+        System.out.println("File "+filename+" added to "+ myFolder);
+    }
+
+    void deleteFileMethod(String filename) {
+        File filepath = new File(myFolder +"/"+filename);
+        String[] list = myFolder.list();
+        for (String file: list) {
+            if (filename.equals(file) && filepath.delete()) {
+                System.out.println("File " + filename + " deleted from " + myFolder);
+                return;
+            }
+        }
+        System.out.println("Delete Operation failed. FILE NOT FOUND");
+    }
+
+    void searchFileMethod(String filename) {
+        String[] list = myFolder.list();
+        for (String file: list) {
+            if (filename.equals(file)) {
+                System.out.println("FOUND : File " + filename + " exists at " + myFolder);
+                return;
+            }
+        }
+        System.out.println("File Not found");
+    }
+	
+   public static void main(String[] args) {
+		
+		System.out.println(WELCOME_TO_MY_COMPANY_PORTAL); 
+        MainProjectPhase1 menu = new MainProjectPhase1();
+        menu.firstView();
+        
+	}
+
+}
+
+
+
+OUTPUT:
+
+Welcome to Phase_1 Main Project    
+ By My Company Pvt.Ltd  
+ The name is : Afisha Sulthana Mohammad
+MyFilePath : D:\Java Files
+
+MAIN MENU - Select any of the following operations: 
+1 - List the types of files in directory
+2 - Perfotm functions like Add, Delete or Search
+3 - Exit Program
+1
+The files in D:\Java Files are :
+project1
+project2
+project3
+
+MAIN MENU - Select any of the following operations: 
+1 - List the types of files in directory
+2 - Perfotm functions like Add, Delete or Search
+3 - Exit Program
+2
+   
+Select any of the following  operations: 
+   1 - Add a file
+   2 - Delete a file
+   3 - Search a file
+   4 - GoBack to Logic Part
+2
+Please Enter a File Name you want to Delete : project2
+File project2 deleted from D:\Java Files
+   
+Select any of the following  operations: 
+   1 - Add a file
+   2 - Delete a file
+   3 - Search a file
+   4 - GoBack to Logic Part
+4
+Going back to main logic part
+
+MAIN MENU - Select any of the following operations: 
+1 - List the types of files in directory
+2 - Perfotm functions like Add, Delete or Search
+3 - Exit Program
+1
+The files in D:\Java Files are :
+project1
+project3
+
+MAIN MENU - Select any of the following operations: 
+1 - List the types of files in directory
+2 - Perfotm functions like Add, Delete or Search
+3 - Exit Program
+2
+   
+Select any of the following  operations: 
+   1 - Add a file
+   2 - Delete a file
+   3 - Search a file
+   4 - GoBack to Logic Part
+3
+Please Enter a File Name you want to Search For : project4
+File Not found
+   
+Select any of the following  operations: 
+   1 - Add a file
+   2 - Delete a file
+   3 - Search a file
+   4 - GoBack to Logic Part
+4
+Going back to main logic part
+
+MAIN MENU - Select any of the following operations: 
+1 - List the types of files in directory
+2 - Perfotm functions like Add, Delete or Search
+3 - Exit Program
+3
+Thank You
